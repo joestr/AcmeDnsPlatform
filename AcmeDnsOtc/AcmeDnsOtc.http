@@ -1,0 +1,11 @@
+@AcmeDnsOtc_HostAddress = http://localhost:5083
+
+POST {{AcmeDnsOtc_HostAddress}}/acme-dns/register
+Accept: application/json
+
+###
+
+POST {{AcmeDnsOtc_HostAddress}}/acme-dns/update
+Accept: application/json
+
+###
