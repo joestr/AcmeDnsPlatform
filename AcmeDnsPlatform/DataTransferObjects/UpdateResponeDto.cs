@@ -1,6 +1,6 @@
 ﻿using System.Text.Json.Serialization;
 
-namespace AcmeDnsOtc.DataTransferObjects
+namespace AcmeDnsPlatform.DataTransferObjects
 {
     public class UpdateResponeDto
     {

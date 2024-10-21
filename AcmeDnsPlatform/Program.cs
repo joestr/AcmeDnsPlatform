@@ -1,5 +1,5 @@
 
-namespace AcmeDnsOtc
+namespace AcmeDnsPlatform
 {
     public class Program
     {

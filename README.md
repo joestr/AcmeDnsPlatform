@@ -1,3 +1,3 @@
-# AcmeDnsOtc
+# AcmeDnsPlatform
 
-A [acme-dns](https://github.com/joohoi/acme-dns) compatible backend for the OTC.
+A [acme-dns](https://github.com/joohoi/acme-dns) compatible backend for various providers.

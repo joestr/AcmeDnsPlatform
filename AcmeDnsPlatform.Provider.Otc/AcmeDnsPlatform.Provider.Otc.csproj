@@ -1,0 +1,19 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+    <PropertyGroup>
+        <TargetFramework>net8.0</TargetFramework>
+        <ImplicitUsings>enable</ImplicitUsings>
+        <Nullable>enable</Nullable>
+        <RootNamespace>AcmeDnsPlatform.Provider.Otc</RootNamespace>
+    </PropertyGroup>
+
+    <ItemGroup>
+      <Reference Include="HuaweiCloud.SDK.Core">
+        <HintPath>..\..\..\..\..\.nuget\packages\huaweicloud.sdk.core\3.1.86\lib\netstandard2.0\HuaweiCloud.SDK.Core.dll</HintPath>
+      </Reference>
+      <Reference Include="HuaweiCloud.SDK.Dns">
+        <HintPath>..\..\..\..\..\.nuget\packages\huaweicloud.sdk.dns\3.1.86\lib\netstandard2.0\HuaweiCloud.SDK.Dns.dll</HintPath>
+      </Reference>
+    </ItemGroup>
+
+</Project>

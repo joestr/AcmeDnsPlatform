@@ -1,10 +1,10 @@
-﻿using AcmeDnsOtc.DataTransferObjects;
-using Microsoft.AspNetCore.Http;
+﻿using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Swashbuckle.AspNetCore.Annotations;
 using System.Net.Mime;
+using AcmeDnsPlatform.DataTransferObjects;
 
-namespace AcmeDnsOtc.Controllers
+namespace AcmeDnsPlatform.Controllers
 {
     [Route("acme-dns")]
     [ApiController]
@@ -16,7 +16,7 @@ namespace AcmeDnsOtc.Controllers
         [Produces(MediaTypeNames.Application.Json)]
         [ProducesResponseType(StatusCodes.Status201Created, Type = typeof(RegisterResponseDto))]
         [SwaggerOperation("Register an account.", "Register an account for ACME DNS usage.")]
-        [SwaggerResponse(StatusCodes.Status201Created, "Account has been sucessfully registered.", Type = typeof(RegisterResponseDto))]
+        [SwaggerResponse(StatusCodes.Status201Created, "Account has been successfully registered.", Type = typeof(RegisterResponseDto))]
         public RegisterResponseDto Register([FromBody] RegisterRequestDto registerRequest)
         {
             // TODO: register account in database
@@ -44,7 +44,7 @@ namespace AcmeDnsOtc.Controllers
         [SwaggerOperation("Update a DNS entry.", "Update the DNS entry of the given subdomain.")]
         [SwaggerResponse(StatusCodes.Status201Created, "Updated the DNS entry.", Type = typeof(UpdateResponeDto))]
         [SwaggerResponse(StatusCodes.Status401Unauthorized, "Not authenticated.")]
-        [SwaggerResponse(StatusCodes.Status403Forbidden, "Forbidden to authrize given subdomain.")]
+        [SwaggerResponse(StatusCodes.Status403Forbidden, "Forbidden to authorize given subdomain.")]
         public UpdateResponeDto PostUpdate([FromBody] UpdateRequestDto updateRequestDto, [FromHeader(Name = "X-Api-User")] string username, [FromHeader(Name = "X-Api-Key")] string password)
         {
             // TODO: Lookup username + password
