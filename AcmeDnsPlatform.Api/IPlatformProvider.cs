@@ -1,6 +1,6 @@
 ﻿namespace AcmeDnsPlatform.Api;
 
-public interface Provider
+public interface IPlatformProvider
 {
     public bool RegisterAccount(string[] ip);
     public bool AddTextRecord(string value);
