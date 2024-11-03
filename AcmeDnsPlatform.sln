@@ -11,6 +11,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AcmeDnsPlatform.Api", "Acme
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AcmeDnsPlatform.Provider.Otc", "AcmeDnsPlatform.Provider.Otc\AcmeDnsPlatform.Provider.Otc.csproj", "{07CD6554-1DDF-4466-A93F-89693D63C44F}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AcmeDnsPlatform.Provider.Sha384", "AcmeDnsPlatform.Provider.Sha384\AcmeDnsPlatform.Provider.Sha384.csproj", "{9B4AFE83-FE23-4FD6-AF91-D25145D6DC48}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -33,6 +35,10 @@ Global
 		{07CD6554-1DDF-4466-A93F-89693D63C44F}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{07CD6554-1DDF-4466-A93F-89693D63C44F}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{07CD6554-1DDF-4466-A93F-89693D63C44F}.Release|Any CPU.Build.0 = Release|Any CPU
+		{9B4AFE83-FE23-4FD6-AF91-D25145D6DC48}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{9B4AFE83-FE23-4FD6-AF91-D25145D6DC48}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{9B4AFE83-FE23-4FD6-AF91-D25145D6DC48}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{9B4AFE83-FE23-4FD6-AF91-D25145D6DC48}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
