@@ -5,14 +5,14 @@ namespace AcmeDnsPlatform.DataTransferObjects
     public class RegisterResponseDto
     {
         [JsonPropertyName("username")]
-        public string Username { get; set; }
+        public string Username { get; set; } = "";
         [JsonPropertyName("password")]
-        public string Password { get; set; }
+        public string Password { get; set; } = "";
         [JsonPropertyName("fulldomain")]
-        public string FullDomain { get; set; }
+        public string FullDomain { get; set; } = "";
         [JsonPropertyName("subdomain")]
-        public string SubDomain { get; set; }
+        public string SubDomain { get; set; } = "";
         [JsonPropertyName("allowfrom")]
-        public string[] AllowFrom { get; set; }
+        public List<string> AllowFrom { get; set; } = new List<string>();
     }
 }

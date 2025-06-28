@@ -1,7 +1,7 @@
-﻿using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Mvc;
 using Swashbuckle.AspNetCore.Annotations;
 using System.Net.Mime;
+using AcmeDnsPlatform.Api;
 using AcmeDnsPlatform.DataTransferObjects;
 
 namespace AcmeDnsPlatform.Controllers
@@ -10,6 +10,15 @@ namespace AcmeDnsPlatform.Controllers
     [ApiController]
     public class AcmeDnsController : ControllerBase
     {
+        private IPlatformAccountManagement _platformAccountManagement;
+        private IPlatformDnsManagement _platformDnsManagement;
+
+        public AcmeDnsController(IPlatformAccountManagement platformAccountManagement, IPlatformDnsManagement platformDnsManagement)
+        {
+            _platformAccountManagement = platformAccountManagement;
+            _platformDnsManagement = platformDnsManagement;
+        }
+        
         [Route("register")]
         [HttpPost]
         [Consumes(MediaTypeNames.Application.Json)]
@@ -17,21 +26,23 @@ namespace AcmeDnsPlatform.Controllers
         [ProducesResponseType(StatusCodes.Status201Created, Type = typeof(RegisterResponseDto))]
         [SwaggerOperation("Register an account.", "Register an account for ACME DNS usage.")]
         [SwaggerResponse(StatusCodes.Status201Created, "Account has been successfully registered.", Type = typeof(RegisterResponseDto))]
-        public RegisterResponseDto Register([FromBody] RegisterRequestDto registerRequest)
+        public IActionResult Register([FromBody] RegisterRequestDto registerRequest)
         {
-            // TODO: register account in database
-            // TODO: create domain entry
+            var account = _platformAccountManagement.RegisterAccount(registerRequest.AllowFrom);
 
             var result = new RegisterResponseDto()
             {
-                Username = Guid.NewGuid().ToString(),
-                Password = Guid.NewGuid().ToString(),
-                FullDomain = "ffff." + Guid.NewGuid().ToString(),
-                SubDomain = "ffff",
-                AllowFrom = new string[0]
+                Username = account.Username,
+                Password = account.Password,
+                FullDomain = account.FullDomain,
+                SubDomain = account.Subdomain,
+                AllowFrom = account.AllowFrom
             };
 
-            return result;
+            return new JsonResult(result)
+            {
+                StatusCode = StatusCodes.Status201Created
+            };
         }
 
         [Route("update")]
@@ -45,17 +56,56 @@ namespace AcmeDnsPlatform.Controllers
         [SwaggerResponse(StatusCodes.Status201Created, "Updated the DNS entry.", Type = typeof(UpdateResponeDto))]
         [SwaggerResponse(StatusCodes.Status401Unauthorized, "Not authenticated.")]
         [SwaggerResponse(StatusCodes.Status403Forbidden, "Forbidden to authorize given subdomain.")]
-        public UpdateResponeDto PostUpdate([FromBody] UpdateRequestDto updateRequestDto, [FromHeader(Name = "X-Api-User")] string username, [FromHeader(Name = "X-Api-Key")] string password)
+        public IActionResult PostUpdate([FromBody] UpdateRequestDto updateRequestDto, [FromHeader(Name = "X-Api-User")] string username, [FromHeader(Name = "X-Api-Key")] string password)
         {
-            // TODO: Lookup username + password
-            // TODO: Update entry with value
-
-            var result = new UpdateResponeDto()
+            var remoteIpAddress = Request.HttpContext.Connection.RemoteIpAddress;
+            if (remoteIpAddress == null)
             {
-                TxtRecordValue = updateRequestDto.TxtRecordValue,
-            };
+                return new BadRequestResult();
+            }
+            
+            var successful = _platformAccountManagement.CheckCredentials(
+                username,
+                password,
+                remoteIpAddress.ToString());
 
-            return result;
+            if (!successful)
+            {
+                return new UnauthorizedResult();
+            }
+
+            var account = _platformAccountManagement.GetAccount(username);
+            
+            if (updateRequestDto.SubDomain != account.Subdomain)
+            {
+                return new ForbidResult();
+            }
+
+            var result = new UpdateResponeDto();
+            
+            if (string.IsNullOrWhiteSpace(updateRequestDto.TxtRecordValue))
+            {
+                _platformDnsManagement.RemoveTextRecord(account.Subdomain, updateRequestDto.TxtRecordValue);
+
+                result = new UpdateResponeDto()
+                {
+                    TxtRecordValue = updateRequestDto.TxtRecordValue,
+                };
+            }
+            else
+            {
+                _platformDnsManagement.AddTextRecord(account.Subdomain, updateRequestDto.TxtRecordValue);
+
+                result = new UpdateResponeDto()
+                {
+                    TxtRecordValue = updateRequestDto.TxtRecordValue,
+                };
+            }
+
+            return new JsonResult(result)
+            {
+                StatusCode = StatusCodes.Status201Created
+            };
         }
     }
 }

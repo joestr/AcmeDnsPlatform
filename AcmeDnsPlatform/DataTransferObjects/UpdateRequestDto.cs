@@ -5,9 +5,9 @@ namespace AcmeDnsPlatform.DataTransferObjects
     public class UpdateRequestDto
     {
         [JsonPropertyName("subdomain")]
-        public string SubDomain { get; set; }
+        public string SubDomain { get; set; } = "";
         [JsonPropertyName("txt")]
-        public string TxtRecordValue { get; set; }
+        public string TxtRecordValue { get; set; } = "";
 
     }
 }

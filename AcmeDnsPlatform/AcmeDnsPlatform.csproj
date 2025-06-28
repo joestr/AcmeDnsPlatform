@@ -12,4 +12,10 @@
     <PackageReference Include="Swashbuckle.AspNetCore.Annotations" Version="6.5.0" />
   </ItemGroup>
 
+  <ItemGroup>
+    <ProjectReference Include="..\AcmeDnsPlatform.Provider.Bunny\AcmeDnsPlatform.Provider.Bunny.csproj" />
+    <ProjectReference Include="..\AcmeDnsPlatform.Provider.Sha384\AcmeDnsPlatform.Provider.Sha384.csproj" />
+    <ProjectReference Include="..\AcmeDnsPlatform.Provider.Sqlite3\AcmeDnsPlatform.Provider.Sqlite3.csproj" />
+  </ItemGroup>
+
 </Project>

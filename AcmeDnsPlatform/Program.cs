@@ -1,4 +1,10 @@
 
+using AcmeDnsPlatform.Api;
+using AcmeDnsPlatform.Provider.Bunny;
+using AcmeDnsPlatform.Provider.Sha384Provider;
+using AcmeDnsPlatform.Provider.Sqlite3;
+using Microsoft.AspNetCore.Rewrite;
+
 namespace AcmeDnsPlatform
 {
     public class Program
@@ -8,6 +14,10 @@ namespace AcmeDnsPlatform
             var builder = WebApplication.CreateBuilder(args);
 
             // Add services to the container.
+
+            builder.Services.AddSingleton<IHashFunction, Sha384>();
+            builder.Services.AddSingleton<IPlatformDnsManagement, BunnyDns>();
+            builder.Services.AddSingleton<IPlatformAccountManagement, Sqlite3>();
 
             builder.Services.AddControllers();
             // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
@@ -19,12 +29,8 @@ namespace AcmeDnsPlatform
 
             var app = builder.Build();
 
-            // Configure the HTTP request pipeline.
-            if (app.Environment.IsDevelopment())
-            {
-                app.UseSwagger();
-                app.UseSwaggerUI();
-            }
+            app.UseSwagger();
+            app.UseSwaggerUI();
 
             app.UseHttpsRedirection();
 
@@ -32,6 +38,10 @@ namespace AcmeDnsPlatform
 
 
             app.MapControllers();
+            
+            var option = new RewriteOptions();
+            option.AddRedirect("^$", "swagger");
+            app.UseRewriter(option);
 
             app.Run();
         }

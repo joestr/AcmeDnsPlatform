@@ -5,6 +5,6 @@ namespace AcmeDnsPlatform.DataTransferObjects
     public class RegisterRequestDto
     {
         [JsonPropertyName("allowfrom")]
-        public string[]? AllowFrom { get; set; }
+        public List<string> AllowFrom { get; set; } = new List<string>();
     }
 }

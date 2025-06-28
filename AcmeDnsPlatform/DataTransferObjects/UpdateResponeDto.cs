@@ -5,6 +5,6 @@ namespace AcmeDnsPlatform.DataTransferObjects
     public class UpdateResponeDto
     {
         [JsonPropertyName("txt")]
-        public string TxtRecordValue { get; set; }
+        public string TxtRecordValue { get; set; } = "";
     }
 }
