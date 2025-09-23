@@ -15,6 +15,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AcmeDnsPlatform.Provider.Sh
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AcmeDnsPlatform.Provider.Sqlite3", "AcmeDnsPlatform.Provider.Sqlite3\AcmeDnsPlatform.Provider.Sqlite3.csproj", "{AE7E3B9F-D191-41CF-8432-3953EAB771F2}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AcmeDnsPlatform.Provider.LibSql", "AcmeDnsPlatform.Provider.LibSql\AcmeDnsPlatform.Provider.LibSql.csproj", "{9BAA074D-CAF9-4D7C-876C-6A500B8D404C}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -45,6 +47,10 @@ Global
 		{AE7E3B9F-D191-41CF-8432-3953EAB771F2}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{AE7E3B9F-D191-41CF-8432-3953EAB771F2}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{AE7E3B9F-D191-41CF-8432-3953EAB771F2}.Release|Any CPU.Build.0 = Release|Any CPU
+		{9BAA074D-CAF9-4D7C-876C-6A500B8D404C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{9BAA074D-CAF9-4D7C-876C-6A500B8D404C}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{9BAA074D-CAF9-4D7C-876C-6A500B8D404C}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{9BAA074D-CAF9-4D7C-876C-6A500B8D404C}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
