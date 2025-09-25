@@ -6,9 +6,9 @@ namespace AcmeDnsPlatform.Provider.LibSql
 {
     public class LibSql : IPlatformAccountManagement
     {
-        private IHashFunction _hashFunction;
-        private IPlatformDnsManagement _platformDnsManagement;
-        private LibSQLConnection _connection;
+        private readonly IHashFunction _hashFunction;
+        private readonly IPlatformDnsManagement _platformDnsManagement;
+        private readonly LibSQLConnection _connection;
 
         private string _connectionString = "";
 
@@ -36,7 +36,7 @@ namespace AcmeDnsPlatform.Provider.LibSql
 
         public Account RegisterAccount(List<string> allowFrom)
         {
-            var passwordBytes = new byte[32];
+            var passwordBytes = new byte[64];
             Random.Shared.NextBytes(passwordBytes);
 
             var credentials = new Credentials()
@@ -57,17 +57,17 @@ namespace AcmeDnsPlatform.Provider.LibSql
                 Subdomain = "_acme-challenge." + domain
             };
 
-            var hashedPassword = Encoding.Default.GetString(_hashFunction.Hash(Encoding.Default.GetBytes(result.Password)));
+            var hashedPassword = Convert.ToHexString(_hashFunction.Hash(Encoding.Default.GetBytes(result.Password)));
 
             var command = _connection.CreateCommand();
             command.CommandText = @"
 INSERT INTO accounts(accountUsername, accountPassword, accountFullDomain,accountSubdomain)
-VALUES($u, $p, $fd, $s);
+VALUES(@u, @p, @fd, @s);
 ";
-            command.Parameters.Add(new LibSQLParameter("$u", result.Username));
-            command.Parameters.Add(new LibSQLParameter("$p", hashedPassword));
-            command.Parameters.Add(new LibSQLParameter("$fd", result.FullDomain));
-            command.Parameters.Add(new LibSQLParameter("$s", result.Subdomain));
+            command.Parameters.AddWithValue("@u", result.Username);
+            command.Parameters.AddWithValue("@p", hashedPassword);
+            command.Parameters.AddWithValue("@fd", result.FullDomain);
+            command.Parameters.AddWithValue("@s", result.Subdomain);
             command.ExecuteNonQuery();
 
             foreach (var allowFromEntry in result.AllowFrom)
@@ -75,11 +75,12 @@ VALUES($u, $p, $fd, $s);
                 var command2 = _connection.CreateCommand();
                 command2.CommandText = @"
 INSERT INTO allowFromCidr(allowFromCidrAccountUsername, allowFromCidrEntry)
-VALUES($au, $e);
+VALUES(@au, @e);
 ";
-                command2.Parameters.Add(new LibSQLParameter("$au", result.Username));
-                command2.Parameters.Add(new LibSQLParameter("$e", allowFromEntry));
+                command2.Parameters.AddWithValue("@au", result.Username);
+                command2.Parameters.AddWithValue("@e", allowFromEntry);
                 command2.ExecuteNonQuery();
+                command2.Dispose();
             }
 
             return result;
@@ -91,9 +92,9 @@ VALUES($au, $e);
 
             var command = _connection.CreateCommand();
             command.CommandText = @"
-SELECT * FROM accounts where accountUsername = $u;
+SELECT * FROM accounts WHERE accountUsername = @u;
 ";
-            command.Parameters.Add(new LibSQLParameter("$u", username));
+            command.Parameters.AddWithValue("@u", username);
             var reader = command.ExecuteReader();
             while (reader.Read())
             {
@@ -109,9 +110,9 @@ SELECT * FROM accounts where accountUsername = $u;
 
             var command2 = _connection.CreateCommand();
             command2.CommandText = @"
-SELECT * FROM allowFromCidr where allowFromCidrAccountUsername = $au;
+SELECT * FROM allowFromCidr where allowFromCidrAccountUsername = @au;
 ";
-            command2.Parameters.Add(new LibSQLParameter("$au", username));
+            command2.Parameters.AddWithValue("@au", username);
             var allowFromCidrs = new List<string>();
             var reader2 = command.ExecuteReader();
             while (reader2.Read())
@@ -127,13 +128,13 @@ SELECT * FROM allowFromCidr where allowFromCidrAccountUsername = $au;
 
         public bool CheckCredentials(string username, string password, string ip)
         {
-            var hashedPassword = Encoding.Default.GetString(_hashFunction.Hash(Encoding.Default.GetBytes(password)));
+            var hashedPassword = Convert.ToHexString(_hashFunction.Hash(Encoding.Default.GetBytes(password)));
 
             var command = _connection.CreateCommand();
             command.CommandText = @"
-SELECT * FROM accounts where accountUsername = $u;
+SELECT * FROM accounts WHERE accountUsername = @u;
 ";
-            command.Parameters.Add(new LibSQLParameter("$u", username));
+            command.Parameters.AddWithValue("@u", username);
             var reader = command.ExecuteReader();
             while (reader.Read())
             {
@@ -148,9 +149,9 @@ SELECT * FROM accounts where accountUsername = $u;
 
             var command2 = _connection.CreateCommand();
             command2.CommandText = @"
-SELECT * FROM allowFromCidr where allowFromCidrAccountUsername = $au;
+SELECT * FROM allowFromCidr WHERE allowFromCidrAccountUsername = @au;
 ";
-            command2.Parameters.Add(new LibSQLParameter("$au", username));
+            command2.Parameters.AddWithValue("@au", username);
             var allowFromCidrs = new List<string>();
             var reader2 = command.ExecuteReader();
             while (reader2.Read())
@@ -187,7 +188,7 @@ CREATE TABLE IF NOT EXISTS accounts (
     accountUsername VARCHAR(36) PRIMARY KEY,
     accountPassword VARCHAR(128) NOT NULL,
     accountFullDomain VARCHAR(512) NOT NULL,
-    accountSubdomain VARCAHR(512) NOT NULL);
+    accountSubdomain VARCHAR(512) NOT NULL);
 ";
             command.ExecuteNonQuery();
         }
