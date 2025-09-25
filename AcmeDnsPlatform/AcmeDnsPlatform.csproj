@@ -13,7 +13,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\AcmeDnsPlatform.Provider.Bunny\AcmeDnsPlatform.Provider.Bunny.csproj" />
+    <ProjectReference Include="..\AcmeDnsPlatform.Provider.BunnyDns\AcmeDnsPlatform.Provider.BunnyDns.csproj" />
     <ProjectReference Include="..\AcmeDnsPlatform.Provider.LibSql\AcmeDnsPlatform.Provider.LibSql.csproj" />
     <ProjectReference Include="..\AcmeDnsPlatform.Provider.Sha384\AcmeDnsPlatform.Provider.Sha384.csproj" />
     <ProjectReference Include="..\AcmeDnsPlatform.Provider.Sqlite3\AcmeDnsPlatform.Provider.Sqlite3.csproj" />

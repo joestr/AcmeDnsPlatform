@@ -1,6 +1,6 @@
 
 using AcmeDnsPlatform.Api;
-using AcmeDnsPlatform.Provider.Bunny;
+using AcmeDnsPlatform.Provider.BunnyDns;
 using AcmeDnsPlatform.Provider.LibSql;
 using AcmeDnsPlatform.Provider.Sha384Provider;
 using AcmeDnsPlatform.Provider.Sqlite3;

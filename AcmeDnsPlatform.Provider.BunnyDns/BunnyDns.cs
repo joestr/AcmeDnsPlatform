@@ -1,14 +1,8 @@
-﻿using System.Net;
-using System.Net.Http.Headers;
-using System.Net.Http.Json;
-using System.Net.Mime;
-using System.Security.Cryptography;
-using System.Text;
+﻿using System.Net.Http.Json;
 using System.Text.Json;
-using System.Text.Json.Serialization;
 using AcmeDnsPlatform.Api;
 
-namespace AcmeDnsPlatform.Provider.Bunny;
+namespace AcmeDnsPlatform.Provider.BunnyDns;
 
 public class BunnyDns : IPlatformDnsManagement
 {

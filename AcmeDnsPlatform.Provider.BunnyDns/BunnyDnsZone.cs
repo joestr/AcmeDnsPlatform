@@ -1,4 +1,4 @@
-namespace AcmeDnsPlatform.Provider.Bunny;
+namespace AcmeDnsPlatform.Provider.BunnyDns;
 
 public class BunnyDnsZone
 {
