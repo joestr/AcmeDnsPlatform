@@ -19,6 +19,9 @@ namespace AcmeDnsPlatform.Provider.LibSql
             this._hashFunction = hashFunction;
             this._platformDnsManagement = platformDnsManagement;
             this._connection = new LibSQLConnection(_connectionString);
+            this._connection.Open();
+            
+            this.CreateTable();
         }
 
         private void GetVariables()

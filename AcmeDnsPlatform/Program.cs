@@ -1,6 +1,7 @@
 
 using AcmeDnsPlatform.Api;
 using AcmeDnsPlatform.Provider.Bunny;
+using AcmeDnsPlatform.Provider.LibSql;
 using AcmeDnsPlatform.Provider.Sha384Provider;
 using AcmeDnsPlatform.Provider.Sqlite3;
 using Microsoft.AspNetCore.Rewrite;
@@ -17,7 +18,7 @@ namespace AcmeDnsPlatform
 
             builder.Services.AddSingleton<IHashFunction, Sha384>();
             builder.Services.AddSingleton<IPlatformDnsManagement, BunnyDns>();
-            builder.Services.AddSingleton<IPlatformAccountManagement, Sqlite3>();
+            builder.Services.AddSingleton<IPlatformAccountManagement, LibSql>();
 
             builder.Services.AddControllers();
             // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
