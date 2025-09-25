@@ -7,6 +7,6 @@ public class Sha384 : IHashFunction
 {
     public byte[] Hash(byte[] bytes)
     {
-        return SHA3_384.HashData(bytes);
+        return SHA384.HashData(bytes);
     }
 }
